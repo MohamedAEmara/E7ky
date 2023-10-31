@@ -6,19 +6,22 @@ const app = express();
 dotenv.config({ path: "config.env" });
 
 import exphbs from "express-handlebars";
-import router from "./routes/index.js";
+import router from "./routes/user.js";
 import authRouter from "./routes/auth.js";
 import { dirname } from "path";
 import passport from "passport";
 import session from "express-session";
 
-app.use('/', router);
-app.use('/auth', authRouter);
-
 
 // Passport Config:
-import passportConfig from "./utils/passportConfig.js";
-// require("./utils/passportConfig.js")(passport);
+// import passportConfig from "./utils/passportConfig.js";
+import { passportConfig } from './utils/passportConfig.js';
+passportConfig(passport);
+// This is an alternative way of using require()
+// require('./config/passport')(passport)
+
+
+
 
 // Static Folders:
 import path from 'path';
@@ -67,6 +70,8 @@ app.engine(
   )
 app.set('view engine', '.hbs');
 
+app.use('/', router);
+app.use('/auth', authRouter);
 
 
 

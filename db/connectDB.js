@@ -8,7 +8,11 @@ connectionString = connectionString.replace('<PASSWORD>', process.env.DATABASE_P
 
 export const connectDB = async () => {
     try {
-        await mongoose.connect(connectionString);
+        const conn = await mongoose.connect(connectionString, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false
+        });
         console.log('DB connected successfully 🌎');
     } catch (err) {
         console.log(err);

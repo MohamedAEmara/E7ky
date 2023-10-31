@@ -6,16 +6,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
     integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="/css/styles.css">;         
+    {{!-- <link rel="stylesheet" href="..//css/styles.css">;          --}}
     {{!-- This is related to "public" path that's setted up in (app.js) --}}
      
     <title>Story Books</title>
 </head>
 <body>
-    <div class="container">
+    {{>_header}}
+    <div class="container" id="emara">
         {{{body}}}
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    {{!-- To show the side bar, we have to add some script. --}}
+    <script>
+        M.Sidenav.init(document.querySelector('.sidenav'));
+    </script>
 </body>
 </html>

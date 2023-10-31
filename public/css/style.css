@@ -1,11 +1,18 @@
-.log-container {
+.card-content {
     width: 400px;
     margin: 50px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
 }
 
+#emara {
+    background-color: blue;
+}
 
 p {
-    margin: 10px 0 !important;
+    /* margin: 10px 0 !important; */
     
 }
