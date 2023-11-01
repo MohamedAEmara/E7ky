@@ -6,8 +6,10 @@ const app = express();
 dotenv.config({ path: "config.env" });
 
 import exphbs from "express-handlebars";
-import router from "./routes/user.js";
+import userRouter from "./routes/user.js";
 import authRouter from "./routes/auth.js";
+import storyRouter from "./routes/stories.js";
+
 import { dirname } from "path";
 import passport from "passport";
 import session from "express-session";
@@ -37,6 +39,9 @@ app.use(session({
 }));
 
 
+// Body Parser:
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 // Passport middleware:
 app.use(passport.initialize());
 app.use(passport.session())
@@ -70,9 +75,9 @@ app.engine(
   )
 app.set('view engine', '.hbs');
 
-app.use('/', router);
+app.use('/', userRouter);
 app.use('/auth', authRouter);
-
+app.use('/stories', storyRouter);
 
 
 app.listen(port, async () => {

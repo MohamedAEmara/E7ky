@@ -20,7 +20,8 @@ const StorySchema = new mongoose.Schema({
     author: {
         // Here we'll attach a User from the UserSchema to this story.
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     ceatedAt: {
         type: Date,
