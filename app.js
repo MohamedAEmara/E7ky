@@ -49,8 +49,10 @@ const port = process.env.PORT || 3000;
 const mode = process.env.NODE_ENV || "production";
 
 // Handlebars   ===>    for template engine..
-// app.engine('.hbs', exphbs({ defaultLayout: "main", extname: ".hbs" }));
-// app.set("view engine", ".hbs");
+app.engine('.hbs', exphbs({ helpers: {
+  formatDate
+}, defaultLayout: "main", extname: ".hbs" }));
+app.set("view engine", ".hbs");
 import {
     formatDate,
     stripTags,
