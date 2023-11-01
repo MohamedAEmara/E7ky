@@ -14,6 +14,8 @@ import { dirname } from "path";
 import passport from "passport";
 import session from "express-session";
 
+// Import helpers
+import { formatDate, stripTags, truncate } from "./helpers/hbs.js";
 
 // Passport Config:
 // import passportConfig from "./utils/passportConfig.js";
@@ -53,23 +55,16 @@ app.engine('.hbs', exphbs({ helpers: {
   formatDate
 }, defaultLayout: "main", extname: ".hbs" }));
 app.set("view engine", ".hbs");
-import {
-    formatDate,
-    stripTags,
-    truncate,
-    editIcon,
-    select,
-} from './helpers/hbs.js';
+
 
 app.engine(
     '.hbs',
     exphbs({
+      // Use Helpers from "helpers/hbs.js"
       helpers: {
         formatDate,
         stripTags,
-        truncate,
-        editIcon,
-        select,
+        truncate
       },
       defaultLayout: 'main',
       extname: '.hbs',
