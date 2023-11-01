@@ -25,6 +25,20 @@ router.post('/', ensureAuth, async (req, res) => {
 }); 
 
 
+// @desc    Show all public stories
+// @route   GET /stories
+router.get('/', ensureAuth, async (req, res) => {
+    try {
+        const stories = await Story.find({ status: 'public' }).sort({ createdAt: 'desc' }).lean();
+        res.render('dashboard', {
+            stories
+        });
+    } catch (err) {
+        console.log(err);
+        res.render('errors/500');
+    }
+})
+
 
 
 export default router;
