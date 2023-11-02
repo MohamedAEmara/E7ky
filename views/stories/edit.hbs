@@ -1,6 +1,7 @@
 <h3>Edit Story</h3>
 <div class="row">
-    <form action="/stories" method="POST" class="col s12">
+    <form action="/stories/{{id}}" method="POST" class="col s12">
+        <input type="hidden" name="_method" value="PUT">
         <div class="row">
             <div class="input-field">
                 <input type="text" id="title" name="title" value="{{title}}">
@@ -27,7 +28,7 @@
         
         <div class="row">
             <div class="input-field">
-                <h5>Edot Your Story:</h5>
+                <h5>Edit Your Story:</h5>
                 <textarea name="body" id="body" class="materialize-textarea">{{body}}</textarea>
             </div>
         </div>

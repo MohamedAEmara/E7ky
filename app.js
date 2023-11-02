@@ -14,6 +14,20 @@ import { dirname } from "path";
 import passport from "passport";
 import session from "express-session";
 
+// Method Override to change the verb of the request.
+import methodOverride from "method-override";
+app.use(methodOverride('_method'));
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'Object' && '_method' in req.body) {
+      // look in urlencoded POST bodies and delete it
+      let method = req.body._method
+      delete req.body._method
+      return method
+    }
+  })
+)
+
 // Import helpers
 import { formatDate, stripTags, truncate, editIcon } from "./helpers/hbs.js";
 

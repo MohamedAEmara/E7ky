@@ -61,9 +61,9 @@ router.get('/edit/:id', ensureAuth, async (req, res, next) => {
         const status = story.status;
         const author = story.author;
         const title = story.title;
+        const id = story._id;
         let isPublic;
         if (story.status === "public") {
-            console.log("🌎🌎🌎🌎🌎🌎")
             isPublic = true
         }
         res.render('stories/edit', {
@@ -71,12 +71,37 @@ router.get('/edit/:id', ensureAuth, async (req, res, next) => {
             story,
             body,
             isPublic,
-            author
+            author,
+            id
         });  
     }
 
-    
-
 })
+
+
+
+// @desc    Update story
+// @route   PATCH/stories/:id
+router.post('/:id', ensureAuth, async (req, res) => {
+    let story = await Story.findById(req.params.id).lean();
+    if (!story) {
+        return res.render('/errors/404');
+    } else if ((req.user._id).toString() !== (story.author).toString()) {
+        res.redirect('/stories');
+    } else {
+        const test = req.params.id;
+        story = await Story.findByIdAndUpdate( req.params.id , {
+            title: req.body.title,
+            body: req.body.body,
+            status: req.body.status 
+        }, {
+            new: true,
+            runValidators: true
+        });
+        res.redirect('/dashboard');
+    }
+})
+
+
 
 export default router;
