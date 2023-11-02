@@ -1,0 +1,40 @@
+<h3>Edit Story</h3>
+<div class="row">
+    <form action="/stories" method="POST" class="col s12">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="title" value="{{title}}">
+                <label for="title">Title</label>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="input-field">
+                {{#if isPublic}}
+                    <select name="status" id="status">
+                        <option value="public">Public</option>            {{! Default value is "public" }}
+                        <option value="private">Private</option>
+                    </select>
+                {{else}}
+                    <select name="status" id="status">
+
+                        <option value="private">Private</option>         {{! Default value is "private" }}
+                        <option value="public">Public</option>          
+                    </select>
+                {{/if}}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="input-field">
+                <h5>Edot Your Story:</h5>
+                <textarea name="body" id="body" class="materialize-textarea">{{body}}</textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <input type="SUBMIT" value="Save" class="btn">
+            <a href="/dashboard" class="btn orange">Cancel</a>
+        </div>
+    </form>
+</div>

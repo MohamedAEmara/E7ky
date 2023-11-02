@@ -25,8 +25,6 @@ passportConfig(passport);
 // require('./config/passport')(passport)
 
 
-
-
 // Static Folders:
 import path from 'path';
 // app.use(express.static(path.join(__dirname, 'public')));
@@ -40,13 +38,6 @@ app.use(session({
   saveUninitialized: false
 }));
 
-
-// ===================== Set global variables. ======================== //
-// To be able to use them in "views".
-app.use((req, res, next) => {
-  res.locals.auth = req.user || req.author || null;             // Now I can access the user passed in "req" using "res.locals.user"
-  next();
-})
 
 // Body Parser:
 app.use(express.urlencoded({ extended: false }));

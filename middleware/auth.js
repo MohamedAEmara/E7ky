@@ -1,8 +1,6 @@
 
 
 export const ensureAuth = (req, res, next) => {
-    console.log(req);
-    console.log(req.isAuthenticated());
     if (req.isAuthenticated()) {
         return next();
     } else {
@@ -13,8 +11,6 @@ export const ensureAuth = (req, res, next) => {
 
 
 export const ensureGuest = (req, res, next) => {
-    console.log(req);
-    console.log(req.isAuthenticated());
     if(req.isAuthenticated()) {
         res.redirect('/dashboard');
     } else {

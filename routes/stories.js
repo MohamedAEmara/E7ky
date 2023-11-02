@@ -16,7 +16,6 @@ router.post('/', ensureAuth, async (req, res) => {
     try {
         req.body.author = req.user._id;
         await Story.create(req.body);
-        console.log(req.body);
         res.redirect('/dashboard');
     } catch (err) {
         console.log(err);
@@ -30,15 +29,7 @@ router.post('/', ensureAuth, async (req, res) => {
 router.get('/', ensureAuth, async (req, res) => {
     try {
         const stories = await Story.find({ status: 'public' }).populate('author').sort({ createdAt: 'desc' }).lean();
-        const test = await Story.find({ status: 'public' });
-        console.log(stories);
-        console.log(test);
         const auth = req.user;
-        console.log("====================================");
-        console.log(req);
-        console.log("====================================");
-        console.log(auth);
-        console.log("====================================");
         res.render('stories/index', {
             auth, stories
         });
@@ -49,5 +40,43 @@ router.get('/', ensureAuth, async (req, res) => {
 })
 
 
+// @desc    Show edit page
+// @route   Get /stories/edit/:id
+router.get('/edit/:id', ensureAuth, async (req, res, next) => {
+    // const story = await Story.findById(req.params.id).lean();
+    const story = await Story.findOne({ _id: req.params.id });
+    
+    // If there is no story with this id:     ==>   render 404 page
+    if(!story) {
+        res.render('errors/404.hbs');
+    }
+    
+    // If the requesting user is not the owner of the story     ==>     redirect to stories
+    else if((req.user._id).toString() !== (story.author).toString()) {
+        res.redirect('/stories');
+    } else {
+        // Otherwise: render "edit story" page and pass this story..
+        // console.log(story);
+        const body = story.body;
+        const status = story.status;
+        const author = story.author;
+        const title = story.title;
+        let isPublic;
+        if (story.status === "public") {
+            console.log("🌎🌎🌎🌎🌎🌎")
+            isPublic = true
+        }
+        res.render('stories/edit', {
+            title,
+            story,
+            body,
+            isPublic,
+            author
+        });  
+    }
+
+    
+
+})
 
 export default router;

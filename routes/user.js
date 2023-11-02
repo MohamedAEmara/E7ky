@@ -6,13 +6,10 @@ import { Story } from "../models/Story.js";
 // @desc    Login/Landing Page
 // @route   GET / 
 router.get('/dashboard', ensureAuth, async (req, res) => {
-    console.log(req.user);
     try {
-        console.log("=======================================================================");
-        console.log(req.user._id);
+    
         const stories = await Story.find({ author: req.user._id }).lean();        // Get all stories which this user is thier Author.
-        console.log(stories);
-        console.log("=======================================================================");
+    
         // After fetching the stories.
         // We'll pass them to the template.
         res.render('dashboard', {
