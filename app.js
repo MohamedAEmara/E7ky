@@ -15,7 +15,7 @@ import passport from "passport";
 import session from "express-session";
 
 // Import helpers
-import { formatDate, stripTags, truncate } from "./helpers/hbs.js";
+import { formatDate, stripTags, truncate, editIcon } from "./helpers/hbs.js";
 
 // Passport Config:
 // import passportConfig from "./utils/passportConfig.js";
@@ -30,7 +30,7 @@ passportConfig(passport);
 // Static Folders:
 import path from 'path';
 // app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(`${dirname}/public`));
+app.use(express.static(`./public`));
 
 
 // Sessions: 
@@ -40,6 +40,13 @@ app.use(session({
   saveUninitialized: false
 }));
 
+
+// ===================== Set global variables. ======================== //
+// To be able to use them in "views".
+app.use((req, res, next) => {
+  res.locals.auth = req.user || req.author || null;             // Now I can access the user passed in "req" using "res.locals.user"
+  next();
+})
 
 // Body Parser:
 app.use(express.urlencoded({ extended: false }));
@@ -64,7 +71,8 @@ app.engine(
       helpers: {
         formatDate,
         stripTags,
-        truncate
+        truncate,
+        editIcon
       },
       defaultLayout: 'main',
       extname: '.hbs',

@@ -1,18 +1,17 @@
-.card-content {
+.fa-small{
+    width: 30px !important;
+    height: 30px !important;
+    padding-left: 10px;
+    font-size: 16px !important;
+    text-align: center !important;
+}
+
+/* .btn-floating {
+    background-color: orange !important;
+} */
+
+.login-container {
     width: 400px;
-    margin: 50px;
+    margin-top: 50px;
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: black;
-}
-
-#emara {
-    background-color: blue;
-}
-
-p {
-    /* margin: 10px 0 !important; */
-    
 }

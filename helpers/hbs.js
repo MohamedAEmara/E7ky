@@ -25,3 +25,20 @@ export const truncate = (input, len) => {
 export const stripTags = (input) => {
   return input.replace(/<(?:.|\n)*?>/gm, '');
 }
+
+
+export const editIcon = (storyUser, loggedUser, storyId, floating = true) => {
+  console.log("uuuuuuuuusssssssssssseeeeeeeeeerrrrrrrrrrrrr");
+  console.log(storyUser);
+  console.log("lllllllllllllllloooooooooooooooooooogggggggggggg");
+  console.log(loggedUser);
+  if (storyUser._id.toString() === loggedUser._id.toString()) {
+    if (floating) {
+      return `<a href="/stories/edit/${storyId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`
+    } else {
+      return `<a href="/stories/edit/${storyId}"><i class="fas fa-edit"></i></a>`
+    }
+  } else {
+    return ''
+  }
+}

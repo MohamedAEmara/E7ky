@@ -33,8 +33,14 @@ router.get('/', ensureAuth, async (req, res) => {
         const test = await Story.find({ status: 'public' });
         console.log(stories);
         console.log(test);
+        const auth = req.user;
+        console.log("====================================");
+        console.log(req);
+        console.log("====================================");
+        console.log(auth);
+        console.log("====================================");
         res.render('stories/index', {
-            stories
+            auth, stories
         });
     } catch (err) {
         console.log(err);
