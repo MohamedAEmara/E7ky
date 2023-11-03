@@ -12,18 +12,12 @@ I'm here to hear you.
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Authentication](#authentication)
 - [Database Configuration](#database-configuration)
-- [Routes](#routes)
 - [Views and Templates](#views-and-templates)
-- [Screenshots](#screenshots)
 - [Demo Link](#demo-link)
 - [Configuration](#configuration)
-- [Dependencies](#dependencies)
-- [Contributing](#contributing)
-- [License](#license)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
+
 
 
 
@@ -54,9 +48,6 @@ GOOGLE_CLIENT_SECRET=XXXXXXXXXXX
 - Once logged in, you can create a story and choose to make it public or private.
 - To view public stories, navigate to the "Public Stories" section.
 - Access your dashboard to manage your stories, including editing and deleting.
-## Authentication
-
-Provide instructions on how to set up Google OAuth for user authentication.
 
 
 ## Database Configuration
@@ -87,6 +78,12 @@ Describe how your Handlebars (.hbs) templates are structured and where they are 
 - **mongodb**  - The official MongoDB driver for Node.js.
 
 These core dependencies are fundamental to the functionality and authentication features of the project. Be sure to install them using `npm install` before running your project.
+
+
+## Demo
+
+Check out the live demo at [E7ky](https://e7ky.onrender.com/)
+
 
 ## Author
 

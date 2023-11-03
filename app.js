@@ -13,6 +13,9 @@ import storyRouter from "./routes/storiesRoutes.js";
 import passport from "passport";
 import session from "express-session";
 
+import cors from "cors";
+
+app.use(cors({ origin: 'https://e7ky.onrender.com' }));
 app.use(express.urlencoded({ extended: true })); // Body parsing middleware
 
 // Method Override to change the verb of the request.
