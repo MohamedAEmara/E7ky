@@ -81,8 +81,8 @@ router.get('/edit/:id', ensureAuth, async (req, res, next) => {
 
 
 // @desc    Update story
-// @route   PATCH/stories/:id
-router.post('/:id', ensureAuth, async (req, res) => {
+// @route   PUT/stories/:id
+router.put('/:id', ensureAuth, async (req, res) => {
     let story = await Story.findById(req.params.id).lean();
     if (!story) {
         return res.render('/errors/404');
@@ -103,5 +103,26 @@ router.post('/:id', ensureAuth, async (req, res) => {
 })
 
 
+// @desc    Delete story
+// @route   DELETE /stories/:id
+router.delete('/:id', ensureAuth, async (req, res) => {
+    try {
+        let story = await Story.findById(req.params.id).lean()
+        console.log(story);
+        if (!story) {
+            return res.render('errors/404')
+        }
+        
+        if ((story.author).toString() !== (req.user._id).toString()) {
+            res.redirect('/stories')
+        } else {
+        await Story.deleteOne({ _id: req.params.id })
+        res.redirect('/dashboard')
+        }
+    } catch (err) {
+        console.error(err)
+        return res.render('errors/500')
+    }
+})
 
 export default router;

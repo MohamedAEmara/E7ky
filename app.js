@@ -14,12 +14,14 @@ import { dirname } from "path";
 import passport from "passport";
 import session from "express-session";
 
+app.use(express.urlencoded({ extended: true })); // Body parsing middleware
+
 // Method Override to change the verb of the request.
 import methodOverride from "method-override";
-app.use(methodOverride('_method'));
+// app.use(methodOverride('_method'));
 app.use(
   methodOverride(function (req, res) {
-    if (req.body && typeof req.body === 'Object' && '_method' in req.body) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
       // look in urlencoded POST bodies and delete it
       let method = req.body._method
       delete req.body._method
@@ -89,12 +91,26 @@ app.use('/', userRouter);
 app.use('/auth', authRouter);
 app.use('/stories', storyRouter);
 
+// app.use(
+//   methodOverride(function (req, res) {
+//     if (req.body && typeof req.body === 'Object' && '_method' in req.body) {
+//       // look in urlencoded POST bodies and delete it
+//       let method = req.body._method
+//       delete req.body._method
+//       return method
+//     }
+//   })
+// )
 
 app.listen(port, async () => {
+  try {
     await connectDB();
     console.log(`Server is running in ${mode} mode on port ${port}...`);
 
     if(mode === "development") {
         app.use(morgan('dev'));
     }
+  } catch (err) {
+    console.log(err);
+  }
 }); 
