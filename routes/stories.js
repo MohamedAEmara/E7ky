@@ -2,6 +2,8 @@ import express from "express";
 const router = express.Router();
 import { ensureAuth } from "../middleware/auth.js";
 import { Story } from "../models/Story.js";
+import { User } from "../models/User.js";
+
 
 // @desc    Show add page
 // @route   GET /stories/add 
@@ -122,6 +124,29 @@ router.delete('/:id', ensureAuth, async (req, res) => {
     } catch (err) {
         console.error(err)
         return res.render('errors/500')
+    }
+})
+
+
+// @desc    Show single story
+// @route   GET /stories/:id
+router.get('/:id', async (req, res) => {
+    try {
+        const story = await Story.findOne({ _id: req.params.id }).populate('author').lean();
+    
+        if (!story) {
+            return res.render('errors/404');
+        } else if (story.status === 'private' && (story.author).toString() !== (req.user._id).toString()) {
+            res.redirect('/dashboard');
+        } else {
+            const user = await User.findOne({ _id: story.author });
+            res.render('stories/display', {
+                story, user
+            });
+        } 
+    } catch (err) {
+        console.log(err);
+        return res.render('errors/500');
     }
 })
 
