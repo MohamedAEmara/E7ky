@@ -6,9 +6,9 @@ const app = express();
 dotenv.config({ path: "config.env" });
 
 import exphbs from "express-handlebars";
-import userRouter from "./routes/user.js";
-import authRouter from "./routes/auth.js";
-import storyRouter from "./routes/stories.js";
+import userRouter from "./routes/userRoutes.js";
+import authRouter from "./routes/authRoutes.js";
+import storyRouter from "./routes/storiesRoutes.js";
 
 import passport from "passport";
 import session from "express-session";

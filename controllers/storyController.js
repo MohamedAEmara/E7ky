@@ -1,20 +1,14 @@
-import express from "express";
-const router = express.Router();
-import { ensureAuth } from "../middleware/auth.js";
-import { Story } from "../models/Story.js";
-import { User } from "../models/User.js";
+import { Story } from '../models/Story.js';
+import { User } from '../models/User.js';
 
 
-// @desc    Show add page
-// @route   GET /stories/add 
-router.get('/add', ensureAuth, async (req, res) => {
+
+export const getAddStoryPage = async (req, res) => {
     res.render('stories/add');
-}); 
+};
 
-
-// @desc    Process the add form
-// @route   POST /stories 
-router.post('/', ensureAuth, async (req, res) => {
+// Controller function for the '/stories' POST route
+export const addStory = async (req, res) => {
     try {
         req.body.author = req.user._id;
         await Story.create(req.body);
@@ -23,12 +17,11 @@ router.post('/', ensureAuth, async (req, res) => {
         console.log(err);
         res.render('errors/500');
     }
-}); 
+}
 
 
-// @desc    Show all public stories
-// @route   GET /stories
-router.get('/', ensureAuth, async (req, res) => {
+
+export const getPublicStories = async (req, res) => {
     try {
         const stories = await Story.find({ status: 'public' }).populate('author').sort({ createdAt: 'desc' }).lean();
         const auth = req.user;
@@ -39,12 +32,10 @@ router.get('/', ensureAuth, async (req, res) => {
         console.log(err);
         res.render('errors/500');
     }
-})
+};
 
 
-// @desc    Show edit page
-// @route   Get /stories/edit/:id
-router.get('/edit/:id', ensureAuth, async (req, res, next) => {
+export const getEditStoryPage = async (req, res, next) => {
     // const story = await Story.findById(req.params.id).lean();
     const story = await Story.findOne({ _id: req.params.id });
     
@@ -77,37 +68,45 @@ router.get('/edit/:id', ensureAuth, async (req, res, next) => {
             id
         });  
     }
-
-})
-
+}
 
 
-// @desc    Update story
-// @route   PUT/stories/:id
-router.put('/:id', ensureAuth, async (req, res) => {
-    let story = await Story.findById(req.params.id).lean();
-    if (!story) {
-        return res.render('/errors/404');
-    } else if ((req.user._id).toString() !== (story.author).toString()) {
-        res.redirect('/stories');
-    } else {
-        const test = req.params.id;
-        story = await Story.findByIdAndUpdate( req.params.id , {
-            title: req.body.title,
-            body: req.body.body,
-            status: req.body.status 
-        }, {
-            new: true,
-            runValidators: true
-        });
-        res.redirect('/dashboard');
+
+export const updateStory = async (req, res) => {
+    try {
+        let story = await Story.findById(req.params.id);
+
+        if (!story) {
+            return res.render('errors/404');
+        }
+
+        if (req.user._id.toString() !== story.author.toString()) {
+            return res.redirect('/stories');
+        }
+
+        story = await Story.findByIdAndUpdate(
+            req.params.id,
+            {
+                title: req.body.title,
+                body: req.body.body,
+                status: req.body.status,
+            },
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
+
+        return res.redirect('/dashboard');
+    } catch (err) {
+        console.error(err);
+        res.render('errors/500');
     }
-})
+};
 
 
-// @desc    Delete story
-// @route   DELETE /stories/:id
-router.delete('/:id', ensureAuth, async (req, res) => {
+
+export const deleteStory = async (req, res) => {
     try {
         let story = await Story.findById(req.params.id).lean()
         console.log(story);
@@ -125,12 +124,11 @@ router.delete('/:id', ensureAuth, async (req, res) => {
         console.error(err)
         return res.render('errors/500')
     }
-})
+}
 
 
-// @desc    Display single story
-// @route   GET /stories/:id
-router.get('/:id', ensureAuth, async (req, res) => {
+
+export const getStory = async (req, res) => {
     try {
         const story = await Story.findOne({ _id: req.params.id }).populate('author').lean();
         if (!story) {
@@ -147,12 +145,11 @@ router.get('/:id', ensureAuth, async (req, res) => {
         console.log(err);
         return res.render('errors/500');
     }
-})
+}
 
 
-// @desc    Display All User stories
-// @route   GET /stories/user/:id
-router.get('/user/:id', ensureAuth, async (req, res) => {
+
+export const getUserStories = async (req, res) => {
     try {
         const stories = await Story.find({ author: req.params.id, status: 'public' }).populate('author').lean();
         const auth = req.user;
@@ -164,7 +161,4 @@ router.get('/user/:id', ensureAuth, async (req, res) => {
         console.log(err);
         res.render('errors/500');
     }
-})
-
-
-export default router;
+}
