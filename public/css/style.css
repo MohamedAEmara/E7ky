@@ -1,3 +1,8 @@
+@font-face {
+    font-family: reg;
+    src: url('../fonts/Rakkas-Regular.ttf');
+}
+
 .fa-small{
     width: 30px !important;
     height: 30px !important;
@@ -30,4 +35,8 @@
 #flex > * {
     width: 48px;
 
+}
+
+.brand-logo {
+    font-family: reg;
 }
