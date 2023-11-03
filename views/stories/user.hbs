@@ -1,0 +1,31 @@
+<h3>{{displayName}}'s  Stories</h3>
+<div class="row">
+    {{#if stories}}
+        {{#each stories}}
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-image">
+                        {{{editIcon this.author ../this.auth _id}}}               
+
+                    </div>
+                    <div class="card-content center-align">
+                        <h5>{{title}}</h5>
+        
+                        <p>{{stripTags (truncate body 200)}}</p>
+                
+                        <br>
+                        <div class="chip">
+                            <img src="{{author.image}}" alt="">
+                            <a href="/stories/user/{{author._id}}">{{author.displayName}}</a>
+                        </div>
+                    </div>
+                    <div class="card-action center-action">
+                        <a href="/stories/{{_id}}" class="btn grey">Read More</a>  {{!-- The id of the story --}}
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    {{else}}
+        <p>No Stories to display</p>
+    {{/if}}
+</div>

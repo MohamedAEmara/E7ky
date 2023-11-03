@@ -10,7 +10,6 @@ import userRouter from "./routes/user.js";
 import authRouter from "./routes/auth.js";
 import storyRouter from "./routes/stories.js";
 
-import { dirname } from "path";
 import passport from "passport";
 import session from "express-session";
 
@@ -91,16 +90,6 @@ app.use('/', userRouter);
 app.use('/auth', authRouter);
 app.use('/stories', storyRouter);
 
-// app.use(
-//   methodOverride(function (req, res) {
-//     if (req.body && typeof req.body === 'Object' && '_method' in req.body) {
-//       // look in urlencoded POST bodies and delete it
-//       let method = req.body._method
-//       delete req.body._method
-//       return method
-//     }
-//   })
-// )
 
 app.listen(port, async () => {
   try {

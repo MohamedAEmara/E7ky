@@ -128,15 +128,14 @@ router.delete('/:id', ensureAuth, async (req, res) => {
 })
 
 
-// @desc    Show single story
+// @desc    Display single story
 // @route   GET /stories/:id
-router.get('/:id', async (req, res) => {
+router.get('/:id', ensureAuth, async (req, res) => {
     try {
         const story = await Story.findOne({ _id: req.params.id }).populate('author').lean();
-    
         if (!story) {
             return res.render('errors/404');
-        } else if (story.status === 'private' && (story.author).toString() !== (req.user._id).toString()) {
+        } else if (story.status === 'private' && (story.author._id).toString() !== (req.user._id).toString()) {
             res.redirect('/dashboard');
         } else {
             const user = await User.findOne({ _id: story.author });
@@ -149,5 +148,23 @@ router.get('/:id', async (req, res) => {
         return res.render('errors/500');
     }
 })
+
+
+// @desc    Display All User stories
+// @route   GET /stories/user/:id
+router.get('/user/:id', ensureAuth, async (req, res) => {
+    try {
+        const stories = await Story.find({ author: req.params.id, status: 'public' }).populate('author').lean();
+        const auth = req.user;
+        const displayName = auth.displayName;
+        res.render('stories/user', {
+            auth, stories, displayName
+        });
+    } catch (err) {
+        console.log(err);
+        res.render('errors/500');
+    }
+})
+
 
 export default router;
