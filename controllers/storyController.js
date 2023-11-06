@@ -162,3 +162,71 @@ export const getUserStories = async (req, res) => {
         res.render('errors/500');
     }
 }
+
+
+// const getStoriesFromIds = async (likes_ids) => {
+//   try {
+//     const storyPromises = likes_ids.map(async (id) => {
+//       return await Story.findOne({ _id: id });
+//     });
+
+//     const stories = await Promise.all(storyPromises);
+//     return stories;
+//   } catch (error) {
+//     // Handle errors if necessary
+//     console.error(error);
+//     throw error;
+//   }
+// };
+
+
+const getStoryFromId = async (id) => {
+    const story = await Story.findOne({ _id: id });
+    return story;
+}
+
+
+const getStoriesFromIds = async (likes_ids) => {
+    let stories = [];
+    console.log('----------------------');
+    console.log(likes_ids);
+    console.log('----------------------');
+    likes_ids.forEach(id => {
+        const story = getStoryFromId(id);
+        stories.push(story);        
+    });
+    console.log("Stories:");
+    console.log(stories);
+    return stories;
+} 
+
+
+export const getLikes = async (req, res) => {
+    try {
+        // console.log('----------------------');
+        // console.log(req);
+        // console.log('----------------------');
+        const id = req.user._id;
+        const user = await User.findOne({ _id: id });
+            
+        const likes_ids = user.likes;
+    
+        const name = user.firstName;
+        const stories = await getStoriesFromIds(likes_ids);
+        res.render('stories/likes', {
+            name, stories
+        })
+        // res.status(200).json({
+
+        //     status: 'success',
+        //     message: likes          
+        //     // I'll edit it after finishing the view.
+        // });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'fail',
+            message: err
+        });
+    }
+}

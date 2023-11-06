@@ -1,11 +1,16 @@
 import express from "express";
 const router = express.Router();
 import { ensureAuth } from "../middleware/auth.js";
-import { getAddStoryPage, deleteStory, getUserStories, getPublicStories, updateStory, getEditStoryPage, getStory, addStory } from "../controllers/storyController.js";
+import { getAddStoryPage, deleteStory, getUserStories, getPublicStories, updateStory, getEditStoryPage, getStory, addStory, getLikes } from "../controllers/storyController.js";
 
 // @desc    Show add page
 // @route   GET /stories/add 
 router.get('/add', ensureAuth, getAddStoryPage); 
+
+// @desc    Get all user liked Stories:
+// @route   GET /stories/user/likes/:id
+router.get('/likes', ensureAuth, getLikes);
+export default router;
 
 
 // @desc    Process the add form
@@ -43,4 +48,3 @@ router.get('/:id', ensureAuth, getStory)
 router.get('/user/:id', ensureAuth, getUserStories)
 
 
-export default router;

@@ -39,4 +39,30 @@
 
 .brand-logo {
     font-family: reg;
+    margin-top: 5px;
+}
+
+
+#footer-card {
+    display: flex;
+}
+
+#first {
+    flex: 0.9 !important;
+    /* background-color: red; */
+}
+
+#second {
+    flex: 0.1 !important;
+    /* background-color: blue; */
+}
+
+
+.like-button:hover {
+    background-color: red !important;
+}
+
+
+.btn.grey:hover {
+    background-color: rgb(65, 61, 61) !important;
 }

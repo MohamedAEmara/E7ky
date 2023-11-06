@@ -24,6 +24,16 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        default: "user"
+    },
+    // Likes field is an array of type (Story)
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Story",
+
+    }],
     createdAt: {
         type: Date,
         default: Date.now()
