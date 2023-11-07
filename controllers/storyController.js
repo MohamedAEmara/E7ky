@@ -181,20 +181,17 @@ export const getUserStories = async (req, res) => {
 
 
 const getStoryFromId = async (id) => {
-    const story = await Story.findOne({ _id: id });
+    const story = await Story.findOne({ _id: id }).populate('author');
     return story;
 }
 
 
 const getStoriesFromIds = async (likes_ids) => {
     let stories = [];
-    console.log('----------------------');
-    console.log(likes_ids);
-    console.log('----------------------');
-    likes_ids.forEach(id => {
-        const story = getStoryFromId(id);
-        stories.push(story);        
-    });
+    for (const id of likes_ids) {
+        const story = await getStoryFromId(id);
+        stories.push(story);
+    }
     console.log("Stories:");
     console.log(stories);
     return stories;
@@ -203,18 +200,24 @@ const getStoriesFromIds = async (likes_ids) => {
 
 export const getLikes = async (req, res) => {
     try {
-        // console.log('----------------------');
-        // console.log(req);
-        // console.log('----------------------');
         const id = req.user._id;
         const user = await User.findOne({ _id: id });
-            
+        
+        // const stories = await Story.find({ status: 'public' }).populate('author').sort({ createdAt: 'desc' }).lean();
+        
         const likes_ids = user.likes;
-    
+        
         const name = user.firstName;
         const stories = await getStoriesFromIds(likes_ids);
+        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+        console.log(stories);
+        // console.log(stories[0]);
+        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+        const auth = user;
         res.render('stories/likes', {
-            name, stories
+            // name,
+            stories,
+            auth
         })
         // res.status(200).json({
 
@@ -222,6 +225,7 @@ export const getLikes = async (req, res) => {
         //     message: likes          
         //     // I'll edit it after finishing the view.
         // });
+        // storyUser, loggedUser, storyId,
     } catch (err) {
         console.log(err);
         res.status(400).json({
@@ -230,3 +234,22 @@ export const getLikes = async (req, res) => {
         });
     }
 }
+
+// export const getDashboard = async (req, res) => {
+//     try {
+//         const stories = await Story.find({ author: req.user._id }).lean();        // Get all stories which this user is thier Author.
+    
+//         // After fetching the stories.
+//         // We'll pass them to the template.
+//         res.render('dashboard', {
+//             // We can pass an object to be accessed in the renderred page.
+//             name: req.user.firstName,
+//             stories
+//             // We simply can access it in double curly braces {{name}} in the view.
+//         })
+//     } catch (err) {
+//         console.log(err);
+//         res.render('/errors/500');
+//     }
+// }; 
+

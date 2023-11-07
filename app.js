@@ -33,7 +33,7 @@ app.use(
 )
 
 // Import helpers
-import { formatDate, stripTags, truncate, editIcon } from "./helpers/hbs.js";
+import { formatDate, stripTags, truncate, editIcon, getAuthNameFromStory, getUserImageFromStory, getStoryTitle } from "./helpers/hbs.js";
 
 // Passport Config:
 // import passportConfig from "./utils/passportConfig.js";
@@ -81,7 +81,10 @@ app.engine(
         formatDate,
         stripTags,
         truncate,
-        editIcon
+        editIcon,
+        getAuthNameFromStory,
+        getUserImageFromStory,
+        getStoryTitle
       },
       defaultLayout: 'main',
       extname: '.hbs',

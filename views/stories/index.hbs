@@ -8,7 +8,7 @@
 
                     
                     <div class="card-image">
-                        {{{editIcon this.author ../this.auth _id}}}               
+                        {{{editIcon this ../this.auth this}}}               
                         {{!-- 
                             Note: editIcon takes these parameters:
                                 1- all users of public stories.         (user) from the stories loop.
@@ -23,7 +23,7 @@
                         {{!-- pass helpers before the element to apply on --}}
                         {{!-- To use more than one helper we need to add parentheses to body --}}
                         {{!-- NOTE: truncate takes another parameter (len) so we need to put it after body --}}
-                        <p>{{stripTags (truncate body 200)}}</p>
+                        <p>{{stripTags (truncate this 200)}}</p>
                         {{!-- <p>{{stripTags (truncate body 150)}}</p> --}}
 
                         {{!-- <p>

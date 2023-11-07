@@ -10,7 +10,6 @@ router.get('/add', ensureAuth, getAddStoryPage);
 // @desc    Get all user liked Stories:
 // @route   GET /stories/user/likes/:id
 router.get('/likes', ensureAuth, getLikes);
-export default router;
 
 
 // @desc    Process the add form
@@ -48,3 +47,4 @@ router.get('/:id', ensureAuth, getStory)
 router.get('/user/:id', ensureAuth, getUserStories)
 
 
+export default router;

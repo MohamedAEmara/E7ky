@@ -1,11 +1,12 @@
 import moment from 'moment';
+import { User } from '../models/User.js';
 
 export const formatDate = (date, format) => {
   return moment(date).utc().format(format);
 };
 
 // Set a limit to the length of the story. Replace the rest of the story with "..."
-export const truncate = (input, len) => {
+export const truncate = (story, len) => {
   // if (str.length > len && str.length > 0) {
   //   let new_str = str + ' '
   //   new_str = str.substr(0, len)
@@ -14,6 +15,12 @@ export const truncate = (input, len) => {
   //   return new_str + '...'
   // }
   // return str
+  console.log("''''''''''''''''''''''''''''''''''''")
+  console.log(story);
+  console.log("''''''''''''''''''''''''''''''''''''")
+  const input = story.body;
+  console.log(input)
+  
   if (input.length <= len) {
     return input;
   } else {
@@ -23,11 +30,24 @@ export const truncate = (input, len) => {
 
 // Remove any html tage.
 export const stripTags = (input) => {
+  // const input = story.body;
   return input.replace(/<(?:.|\n)*?>/gm, '');
 }
 
 
-export const editIcon = (storyUser, loggedUser, storyId, floating = true) => {
+export const editIcon = (storyUserrrr, loggedUser, storyIdddd, floating = true) => {
+  // to play around the .hbs 
+  // I cannot access fields in the object passed to the view ".hbs"
+  let storyUser = storyUserrrr.author;
+  let storyId = storyIdddd._id;
+  console.log("........................................")
+  console.log(storyUser);
+  console.log("........................................")
+  console.log(loggedUser);
+  console.log("........................................")
+  console.log(storyId);
+  console.log("........................................")
+  // console.log(storyUser);
   if (storyUser._id.toString() === loggedUser._id.toString()) {
     if (floating) {
       return `<a href="/stories/edit/${storyId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`
@@ -37,4 +57,24 @@ export const editIcon = (storyUser, loggedUser, storyId, floating = true) => {
   } else {
     return ''
   }
+}
+
+
+export const getUserImageFromStory = (story) => {
+  const image = story.author.image;
+  // const user = await User.findOne({ _id: story.author });
+  // const image = user.image;
+  return image;
+}
+
+export const getAuthNameFromStory = (story) => {
+  // const user = await User.findOne({ _id: story.author });
+  const name = story.author.displayName;
+  return name;
+}
+
+
+export const getStoryTitle = (story) => {
+  const title = story.title;
+  return title;
 }

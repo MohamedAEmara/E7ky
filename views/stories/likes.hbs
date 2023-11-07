@@ -1,38 +1,53 @@
-<h3>Liked Stories</h3>
-{{!-- <p>Here are your stories</p> --}}
-{{#if stories}}
-{{!-- We'll loop over the stories --}}
-    <table class="striped">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each stories}}
-        <tr>
-            <td><a href="/stories/{{_id}}">{{title}}</a></td>
-            <td>{{formatDate createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
-            <td><span class="dash-status">{{status}}</span></td>
-            <td id="flex">
-                <a href="/stories/edit/{{_id}}" class="btn btn-float">
-                    <i class="fas fa-edit"></i>
-                </a>
+<h1>Liked Stories</h1>
+<div class="row">
+    {{!-- {{{author}}} --}}
+    {{#if stories}}
+        {{#each stories}}
+            <div class="col s12 m4">
+                <div class="card">
 
-                <form action="/stories/{{_id}}" method="POST" id="delete-form" class="btn-float">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="btn red btn-float">
-                        <i class="fas fa-trash "></i>
-                    </button>
-                </form>
-            </td>
-        </tr>
+                    
+                    <div class="card-image">
+                        {{{editIcon this ../this.auth this}}}               
+                        {{!-- 
+                            Note: editIcon takes these parameters:
+                                1- all users of public stories.         (user) from the stories loop.
+                                2- loggedIn user                        (../user) one level up to get the loggedIn user
+                                3- storyId                              (_id) it's attached to the user in loop (of stories)
+                                4- floating (which has default value)
+                        --}}
+                    </div>
+
+                    <div class="card-content center-align">
+                        <h5>{{getStoryTitle this}}</h5>
+                        {{!-- pass helpers before the element to apply on --}}
+                        {{!-- To use more than one helper we need to add parentheses to body --}}
+                        {{!-- NOTE: truncate takes another parameter (len) so we need to put it after body --}}
+                        <p>{{stripTags (truncate this 200)}}</p>
+
+                        <br>
+                        {{!-- <h1>{{ getAuthNameFromStory this}}</h1> --}}
+                        <div class="chip">
+                            <img src={{getUserImageFromStory this}} alt="">
+                            <a href="/stories/user/" + {{getAuthNameFromStory this}}>{{getAuthNameFromStory this}}</a>
+                        </div>
+                    </div>
+                    
+                    <div id="footer-card">
+                        <div class="card-action center-action" id="first">
+                            <a href="/stories/" + {{this._id}} class="btn grey">Read More</a>  {{!-- The id of the story --}}
+                        </div>
+                        <div class="card-action center-action" id="second">
+                            <a href="/like/" + {{this._id}} class="btn like-button grey" id="like">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
         {{/each}}
-        </tbody>
-    </table>
-{{else}}
-<p>You don't have any liked stories yet</p>
-{{/if}}
+    {{else}}
+        <p>You don't have any likes yet.</p>
+    {{/if}}
+</div>

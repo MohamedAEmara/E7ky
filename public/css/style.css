@@ -58,7 +58,7 @@
 }
 
 
-.like-button:hover {
+#like:hover {
     background-color: red !important;
 }
 
