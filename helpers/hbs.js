@@ -38,15 +38,17 @@ export const stripTags = (input) => {
 export const editIcon = (storyUserrrr, loggedUser, storyIdddd, floating = true) => {
   // to play around the .hbs 
   // I cannot access fields in the object passed to the view ".hbs"
+  // console.log(storyUserrrr);
+  // console.log('xxxxxxxxxxxxxxxxxxxxx')
   let storyUser = storyUserrrr.author;
   let storyId = storyIdddd._id;
-  console.log("........................................")
-  console.log(storyUser);
-  console.log("........................................")
-  console.log(loggedUser);
-  console.log("........................................")
-  console.log(storyId);
-  console.log("........................................")
+  // console.log("........................................")
+  // console.log(storyUser);
+  // console.log("........................................")
+  // console.log(loggedUser);
+  // console.log("........................................")
+  // console.log(storyId);
+  // console.log("........................................")
   // console.log(storyUser);
   if (storyUser._id.toString() === loggedUser._id.toString()) {
     if (floating) {

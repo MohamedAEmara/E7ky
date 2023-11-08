@@ -181,7 +181,10 @@ export const getUserStories = async (req, res) => {
 
 
 const getStoryFromId = async (id) => {
-    const story = await Story.findOne({ _id: id }).populate('author');
+    const story = await Story.findOne({ _id: id }).populate('author').lean();
+    console.log("HERE IS THE STORYYYYYYYYYYYYYYYYY");
+    console.log("===================================");
+    console.log(story);
     return story;
 }
 
@@ -208,17 +211,28 @@ export const getLikes = async (req, res) => {
         const likes_ids = user.likes;
         
         const name = user.firstName;
-        const stories = await getStoriesFromIds(likes_ids);
+        // const stories = await getStoriesFromIds(likes_ids);
+        // const stories = await Story.find();
+        let stories = [];
+        for (const id of likes_ids) {
+            const story = await Story.findById( id );
+            stories.push(story);
+        }
+
+        const test = await Story.find();
+        
         console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
         console.log(stories);
         // console.log(stories[0]);
         console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+        console.log(test);
+        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
         const auth = user;
         res.render('stories/likes', {
             // name,
-            stories,
-            auth
-        })
+            auth,
+            stories
+        });
         // res.status(200).json({
 
         //     status: 'success',
@@ -235,21 +249,21 @@ export const getLikes = async (req, res) => {
     }
 }
 
-// export const getDashboard = async (req, res) => {
-//     try {
-//         const stories = await Story.find({ author: req.user._id }).lean();        // Get all stories which this user is thier Author.
-    
-//         // After fetching the stories.
-//         // We'll pass them to the template.
-//         res.render('dashboard', {
-//             // We can pass an object to be accessed in the renderred page.
-//             name: req.user.firstName,
-//             stories
-//             // We simply can access it in double curly braces {{name}} in the view.
-//         })
-//     } catch (err) {
-//         console.log(err);
-//         res.render('/errors/500');
-//     }
-// }; 
 
+
+export const likeStory = async (req, res) => {
+    try {
+        const storyId = req.params.id;
+        const userId = req.user._id;
+        await User.findByIdAndUpdate(userId, {
+            $push: { likes: storyId }
+        })
+        .then(console.log('Story liked Successfully :)'));
+        
+        res.render('/stories/index');
+        
+    } catch (err) {
+        console.log(err);
+        res.render('/errors/500');
+    }
+}

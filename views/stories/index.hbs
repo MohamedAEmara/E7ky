@@ -41,10 +41,18 @@
                         <div class="card-action center-action" id="first">
                             <a href="/stories/{{_id}}" class="btn grey">Read More</a>  {{!-- The id of the story --}}
                         </div>
-                        <div class="card-action center-action" id="second">
-                            <a href="/like/{{_id}}" class="btn like-button grey">
+                        {{!-- <div class="card-action center-action" id="second">
+                            <a href="" class="btn like-button grey">
                                 <i class="fas fa-heart"></i>
                             </a>
+                        </div> --}}
+                        <div class="card-action center-action" id="second">
+                            <form action="stories/like/{{this._id}}" method="POST">
+                                <input type="hidden" name="storyId" value="{{storyId}}">
+                                <button type="submit" class="btn like-button grey">
+                                <i class="fas fa-heart"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
     

@@ -1,4 +1,4 @@
-<h1>Liked Stories</h1>
+<h1>Stories</h1>
 <div class="row">
     {{!-- {{{author}}} --}}
     {{#if stories}}
@@ -19,28 +19,40 @@
                     </div>
 
                     <div class="card-content center-align">
-                        <h5>{{getStoryTitle this}}</h5>
+                        <h5>{{title}}</h5>
                         {{!-- pass helpers before the element to apply on --}}
                         {{!-- To use more than one helper we need to add parentheses to body --}}
                         {{!-- NOTE: truncate takes another parameter (len) so we need to put it after body --}}
                         <p>{{stripTags (truncate this 200)}}</p>
+                        {{!-- <p>{{stripTags (truncate body 150)}}</p> --}}
 
+                        {{!-- <p>
+                            {{truncate
+                            (stripTags body) 150}}
+                        </p> --}}
                         <br>
-                        {{!-- <h1>{{ getAuthNameFromStory this}}</h1> --}}
                         <div class="chip">
-                            <img src={{getUserImageFromStory this}} alt="">
-                            <a href="/stories/user/" + {{getAuthNameFromStory this}}>{{getAuthNameFromStory this}}</a>
+                            <img src="{{author.image}}" alt="">
+                            <a href="/stories/user/{{author._id}}">{{author.displayName}}</a>
                         </div>
                     </div>
                     
                     <div id="footer-card">
                         <div class="card-action center-action" id="first">
-                            <a href="/stories/" + {{this._id}} class="btn grey">Read More</a>  {{!-- The id of the story --}}
+                            <a href="/stories/{{_id}}" class="btn grey">Read More</a>  {{!-- The id of the story --}}
                         </div>
-                        <div class="card-action center-action" id="second">
-                            <a href="/like/" + {{this._id}} class="btn like-button grey" id="like">
+                        {{!-- <div class="card-action center-action" id="second">
+                            <a href="" class="btn like-button grey">
                                 <i class="fas fa-heart"></i>
                             </a>
+                        </div> --}}
+                        <div class="card-action center-action" id="second">
+                            <form action="stories/like/{{this.author._id}}" method="POST">
+                                <input type="hidden" name="storyId" value="{{storyId}}">
+                                <button type="submit" class="btn like-button grey">
+                                <i class="fas fa-heart"></i> Like Story
+                                </button>
+                            </form>
                         </div>
                     </div>
     
@@ -48,6 +60,6 @@
             </div>
         {{/each}}
     {{else}}
-        <p>You don't have any likes yet.</p>
+        <p>No Stories to display</p>
     {{/if}}
 </div>

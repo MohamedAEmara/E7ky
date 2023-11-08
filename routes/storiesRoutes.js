@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import { ensureAuth } from "../middleware/auth.js";
-import { getAddStoryPage, deleteStory, getUserStories, getPublicStories, updateStory, getEditStoryPage, getStory, addStory, getLikes } from "../controllers/storyController.js";
+import { getAddStoryPage, deleteStory, getUserStories, getPublicStories, updateStory, getEditStoryPage, getStory, addStory, getLikes, likeStory } from "../controllers/storyController.js";
 
 // @desc    Show add page
 // @route   GET /stories/add 
@@ -45,6 +45,12 @@ router.get('/:id', ensureAuth, getStory)
 // @desc    Display All User stories
 // @route   GET /stories/user/:id
 router.get('/user/:id', ensureAuth, getUserStories)
+
+
+// @desc    Like a story
+// @route   POST /stories/like/:id
+router.post('/like/:id', ensureAuth, likeStory);
+
 
 
 export default router;
