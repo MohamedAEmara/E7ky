@@ -15,9 +15,9 @@ export const truncate = (story, len) => {
   //   return new_str + '...'
   // }
   // return str
-  console.log("''''''''''''''''''''''''''''''''''''")
-  console.log(story);
-  console.log("''''''''''''''''''''''''''''''''''''")
+  // console.log("''''''''''''''''''''''''''''''''''''")
+  // console.log(story);
+  // console.log("''''''''''''''''''''''''''''''''''''")
   const input = story.body;
   console.log(input)
   
@@ -69,7 +69,8 @@ export const getUserImageFromStory = (story) => {
   return image;
 }
 
-export const getAuthNameFromStory = (story) => {
+export const  getAuthNameFromStory = (story) => {
+  console.log (story)
   // const user = await User.findOne({ _id: story.author });
   const name = story.author.displayName;
   return name;
@@ -79,4 +80,26 @@ export const getAuthNameFromStory = (story) => {
 export const getStoryTitle = (story) => {
   const title = story.title;
   return title;
+}
+
+
+export const getStoryId = (story) => {
+  // console.log(story);
+  const id = story._id;
+  return id;
+}
+
+
+export const getHeartColor = (user, story) => {
+
+  // const user = await User.findOne({ _id: userId });
+  const likes = user.likes;
+  console.log(likes);
+  console.log('.x.x.x.x.x.x.x.x.x.x.x.x');
+  console.log(user);
+  if(likes.includes(story._id)) {
+    return "red";
+  } else {
+    return "grey";
+  }
 }

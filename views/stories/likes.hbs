@@ -1,4 +1,4 @@
-<h1>Stories</h1>
+<h1>Liked Stories</h1>
 <div class="row">
     {{!-- {{{author}}} --}}
     {{#if stories}}
@@ -19,7 +19,7 @@
                     </div>
 
                     <div class="card-content center-align">
-                        <h5>{{title}}</h5>
+                        <h5>{{getStoryTitle this}}</h5>
                         {{!-- pass helpers before the element to apply on --}}
                         {{!-- To use more than one helper we need to add parentheses to body --}}
                         {{!-- NOTE: truncate takes another parameter (len) so we need to put it after body --}}
@@ -33,7 +33,7 @@
                         <br>
                         <div class="chip">
                             <img src="{{author.image}}" alt="">
-                            <a href="/stories/user/{{author._id}}">{{author.displayName}}</a>
+                            <a href="/stories/user/{{author._id}}">{{getAuthNameFromStory this}}</a>
                         </div>
                     </div>
                     
@@ -47,10 +47,10 @@
                             </a>
                         </div> --}}
                         <div class="card-action center-action" id="second">
-                            <form action="stories/like/{{this.author._id}}" method="POST">
-                                <input type="hidden" name="storyId" value="{{storyId}}">
-                                <button type="submit" class="btn like-button grey">
-                                <i class="fas fa-heart"></i> Like Story
+                            <form action="/stories/like/{{getStoryId this}}" method="POST">
+                                {{!-- <input type="hidden" name="storyId" value="{{storyId}}"> --}}
+                                <button type="submit" class="btn like-button red">
+                                <i class="fas fa-heart"></i>
                                 </button>
                             </form>
                         </div>

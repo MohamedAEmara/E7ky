@@ -5,7 +5,7 @@ export const googleAuth = passport.authenticate('google', {
 })
 
 export const failureRedirect = passport.authenticate('google', {
-    failureRedirect: '/'
+    failureRedirect: '/welcome_new'
 });
 
 export const successRedirect = (req, res) => {

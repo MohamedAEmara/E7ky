@@ -47,9 +47,9 @@
                             </a>
                         </div> --}}
                         <div class="card-action center-action" id="second">
-                            <form action="stories/like/{{this._id}}" method="POST">
+                            <form action="/stories/like/{{this._id}}" method="POST">
                                 <input type="hidden" name="storyId" value="{{storyId}}">
-                                <button type="submit" class="btn like-button grey">
+                                <button type="submit" class="btn like-button {{getHeartColor ../this.auth this}}">
                                 <i class="fas fa-heart"></i>
                                 </button>
                             </form>

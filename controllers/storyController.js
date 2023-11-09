@@ -255,15 +255,52 @@ export const likeStory = async (req, res) => {
     try {
         const storyId = req.params.id;
         const userId = req.user._id;
-        await User.findByIdAndUpdate(userId, {
-            $push: { likes: storyId }
-        })
-        .then(console.log('Story liked Successfully :)'));
+        let user = await User.findOne({ _id: userId });
+
+        // console.log("=-=-=-=-=-=--=-=-=-=--=-=-=-=-=-=-=-=")
+        // console.log(user);
+        // console.log("=-=-=-=-=-=--=-=-=-=--=-=-=-=-=-=-=-=")
+        let likes = user.likes;
+        console.log(likes);
+        if(likes.includes(storyId.toString())) {
+            await User.findByIdAndUpdate(userId, {
+                $pull: { likes: storyId }
+            });
+            console.log("NO CHANGE");
+
+        } else {
+
+            await User.findByIdAndUpdate(userId, {
+                $push: { likes: storyId }
+            })
+            .then(console.log('Story liked Successfully :)'));
+        }
+
+        user = await User.findOne({ _id: userId });
+
+        likes = user.likes;
         
-        res.render('/stories/index');
+        let stories = [];
+        for (const id of likes) {
+            const story = await Story.findById( id );
+            stories.push(story);
+        }
+
+        const auth = user;
+        // const auth = User.findOne({ _id: userId });
+        // const stories = auth.likes;
+        res.render('stories/likes', {
+            auth, stories
+        });
         
     } catch (err) {
         console.log(err);
         res.render('/errors/500');
     }
+}
+
+
+
+const welcomeNewUser = (req, res) => {
+    res.render('/welcome_new');
 }
