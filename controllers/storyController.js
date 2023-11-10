@@ -24,6 +24,43 @@ export const addStory = async (req, res) => {
 export const getPublicStories = async (req, res) => {
     try {
         const stories = await Story.find({ status: 'public' }).populate('author').sort({ createdAt: 'desc' }).lean();
+        
+        // const test = await Story.aggregate([
+        //     {
+        //         $match: { status: 'public' },
+        //     },
+        //     {
+        //         $lookup: {
+        //             from: 'users',
+        //             localField: 'author',
+        //             foreignField: '_id',
+        //             as: 'authorData',
+        //         },
+        //     },
+        //     {
+        //         $unwind: '$authorData',
+        //     },
+        //     {
+        //         $addFields: {
+        //             likesCount: {$size: '$authorData.likes'},
+        //         },
+        //     },
+        //     {
+        //         $sort: {
+        //             likesCount: -1,
+        //             createdAt: -1,
+        //         },
+        //     },
+        // ]);
+        
+        // const stories = await User.populate(test, { path: 'author' });
+        
+        
+        // console.log(test);
+        // console.log('=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=--=-=');
+        // console.log(stories);
+        
+        console.log(stories);
         const auth = req.user;
         res.render('stories/index', {
             auth, stories
@@ -137,8 +174,9 @@ export const getStory = async (req, res) => {
             res.redirect('/dashboard');
         } else {
             const user = await User.findOne({ _id: story.author });
+            const loggedUser = req.user;
             res.render('stories/display', {
-                story, user
+                story, user, loggedUser
             });
         } 
     } catch (err) {

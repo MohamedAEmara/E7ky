@@ -42,14 +42,14 @@ export const editIcon = (storyUserrrr, loggedUser, storyIdddd, floating = true) 
   // console.log('xxxxxxxxxxxxxxxxxxxxx')
   let storyUser = storyUserrrr.author;
   let storyId = storyIdddd._id;
-  // console.log("........................................")
-  // console.log(storyUser);
-  // console.log("........................................")
-  // console.log(loggedUser);
-  // console.log("........................................")
-  // console.log(storyId);
-  // console.log("........................................")
-  // console.log(storyUser);
+  console.log("........................................")
+  console.log(storyUser);
+  console.log("........................................")
+  console.log(loggedUser);
+  console.log("........................................")
+  console.log(storyId);
+  console.log("........................................")
+  console.log(storyUser);
   if (storyUser._id.toString() === loggedUser._id.toString()) {
     if (floating) {
       return `<a href="/stories/edit/${storyId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`
