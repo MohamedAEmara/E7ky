@@ -5,23 +5,34 @@
             <div class="col s12 m4">
                 <div class="card">
                     <div class="card-image">
-                        {{{editIcon this.author ../this.auth _id}}}               
+                        {{{editIcon this ../this.auth this}}}               
 
                     </div>
                     <div class="card-content center-align">
-                        <h5>{{title}}</h5>
+                        <h5>{{ truncateTitle this 18 }}</h5>
         
-                        <p>{{stripTags (truncate body 200)}}</p>
+                        <p>{{stripTags (truncate this 200)}}</p>
                 
                         <br>
                         <div class="chip">
-                            <img src="{{author.image}}" alt="">
-                            <a href="/stories/user/{{author._id}}">{{author.displayName}}</a>
+                            <img src="{{getUserImageFromStory this}}" alt="">
+                            <a href="/stories/user/{{getUserId this}}">{{getAuthNameFromStory this}}</a>
                         </div>
                     </div>
-                    <div class="card-action center-action">
-                        <a href="/stories/{{_id}}" class="btn grey">Read More</a>  {{!-- The id of the story --}}
+                    <div id="footer-card">
+                        <div class="card-action center-action">
+                            <a href="/stories/{{_id}}" class="btn grey">Read More</a>  {{!-- The id of the story --}}
+                        </div>
+                        <div class="card-action center-action" id="second">
+                            <form action="/stories/like/{{getStoryId this}}" method="POST">
+                                {{!-- <input type="hidden" name="storyId" value="{{storyId}}"> --}}
+                                <button type="submit" class="btn like-button {{getHeartColor ../this.auth this}}">
+                                <i class="fas fa-heart"></i>
+                                </button>
+                            </form>
+                        </div>  
                     </div>
+                    
                 </div>
             </div>
         {{/each}}

@@ -3,6 +3,11 @@
     src: url('../fonts/Rakkas-Regular.ttf');
 }
 
+@font-face {
+    font-family: neww;
+    src: url('../fonts/Alkalami-Regular.ttf');
+}
+
 .fa-small{
     width: 30px !important;
     height: 30px !important;
@@ -21,7 +26,9 @@
     text-align: center;
 }
 
-
+.main-title {
+    font-family: neww !important;
+}
 
 #flex {
     display: flex;

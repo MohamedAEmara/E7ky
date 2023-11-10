@@ -33,7 +33,7 @@ app.use(
 )
 
 // Import helpers
-import { formatDate, stripTags, truncate, editIcon, getAuthNameFromStory, getUserImageFromStory, getStoryTitle, getStoryId, getHeartColor } from "./helpers/hbs.js";
+import { formatDate, stripTags, truncate, editIcon, getAuthNameFromStory, getUserImageFromStory, getStoryTitle, getStoryId, getHeartColor, getUserId, truncateTitle } from "./helpers/hbs.js";
 
 // Passport Config:
 // import passportConfig from "./utils/passportConfig.js";
@@ -86,7 +86,9 @@ app.engine(
         getUserImageFromStory,
         getStoryTitle,
         getStoryId,
-        getHeartColor
+        getHeartColor,
+        getUserId,
+        truncateTitle
       },
       defaultLayout: 'main',
       extname: '.hbs',

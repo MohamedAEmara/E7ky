@@ -151,9 +151,18 @@ export const getStory = async (req, res) => {
 
 export const getUserStories = async (req, res) => {
     try {
-        const stories = await Story.find({ author: req.params.id, status: 'public' }).populate('author').lean();
+        let stories;
+
+        // If the logged in user directs his own page, he'll see all public & private stories.
+        if((req.params.id).toString() === (req.user._id).toString()) {
+            stories = await Story.find({ author: req.params.id }).populate('author').lean();
+        } else {
+            stories = await Story.find({ author: req.params.id, status: 'public' }).populate('author').lean();
+        }
+
+        // const auth = stories[0].author;
         const auth = req.user;
-        const displayName = auth.displayName;
+        const displayName = stories[0].author.displayName;
         res.render('stories/user', {
             auth, stories, displayName
         });
@@ -215,7 +224,7 @@ export const getLikes = async (req, res) => {
         // const stories = await Story.find();
         let stories = [];
         for (const id of likes_ids) {
-            const story = await Story.findById( id );
+            const story = await Story.findById( id ).populate('author');
             stories.push(story);
         }
 

@@ -94,12 +94,29 @@ export const getHeartColor = (user, story) => {
 
   // const user = await User.findOne({ _id: userId });
   const likes = user.likes;
-  console.log(likes);
-  console.log('.x.x.x.x.x.x.x.x.x.x.x.x');
-  console.log(user);
-  if(likes.includes(story._id)) {
+  // console.log(likes);
+  // console.log('.x.x.x.x.x.x.x.x.x.x.x.x');
+  // console.log(user);
+  if(likes && likes.includes(story._id)) {      // To ensure that likes array is not empty.
     return "red";
   } else {
     return "grey";
+  }
+}
+
+
+export const getUserId = (story) => {
+  return story.author._id;
+}
+
+
+export const truncateTitle = (story, len) => {
+  const input = story.title;
+  console.log(input)
+  
+  if (input.length <= len) {
+    return input;
+  } else {
+    return input.slice(0, len) + '...';
   }
 }
